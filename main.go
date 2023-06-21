@@ -1,23 +1,22 @@
 package main
 
 import (
+	"context"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/sushant102004/Hotel-Reservation-System/api"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
 	app := fiber.New()
+	const dbURI = "mongodb://localhost:27017"
 
-	app.Get("/foo", handleFoo)
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(dbURI))
 
-	apiV1 := app.Group("/api/v1/")
-
-	apiV1.Get("/user", api.HandleGetUsers)
-	apiV1.Get("/user/:id", api.HandleGetUser)
+	if err != nil {
+		panic(err)
+	
 
 	app.Listen(":5000")
-}
-
-func handleFoo(c *fiber.Ctx) error {
-	return c.JSON(map[string]string{"message": "Server Working"})
 }
