@@ -39,6 +39,11 @@ func (h *UserHandler) HandleInsertUser(c *fiber.Ctx) error {
 		return err
 	}
 
+	err = params.Validate()
+	if err != nil {
+		return err
+	}
+
 	user, err := types.NewUserFromParams(params)
 	if err != nil {
 		return err
