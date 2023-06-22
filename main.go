@@ -31,6 +31,7 @@ func main() {
 
 	apiVOne.Get("/user", userHandler.HandleGetUsers)
 	apiVOne.Get("/user/:id", userHandler.HandleGetUser)
+	apiVOne.Post("/user", userHandler.HandleInsertUser)
 
 	app.Listen(":5000")
 }
