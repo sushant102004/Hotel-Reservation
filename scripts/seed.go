@@ -7,24 +7,29 @@ import (
 
 	"github.com/sushant102004/Hotel-Reservation-System/db"
 	"github.com/sushant102004/Hotel-Reservation-System/types"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
 	const dbURI = "mongodb://localhost:27017"
+	ctx := context.Background()
 
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(dbURI))
 	if err != nil {
 		panic(err)
 	}
 
+	client.Database(db.DBNAME).Drop(ctx)
+
 	hotelStore := db.NewHotelStore(client)
-	roomStore := db.NewRoomStore(client)
+	roomStore := db.NewRoomStore(client, hotelStore)
 
 	hotel := types.Hotel{
 		Name:     "Daddy's Hotel",
 		Location: "California",
+		Rooms:    []primitive.ObjectID{},
 	}
 
 	rooms := []types.Room{
@@ -42,7 +47,7 @@ func main() {
 		},
 	}
 
-	insertedHotel, err := hotelStore.InsertHotel(context.Background(), &hotel)
+	insertedHotel, err := hotelStore.InsertHotel(ctx, &hotel)
 
 	if err != nil {
 		log.Fatal(err.Error())
@@ -50,7 +55,7 @@ func main() {
 
 	for _, room := range rooms {
 		room.HotelID = insertedHotel.ID
-		insertedRoom, err := roomStore.InsertRoom(context.Background(), &room)
+		insertedRoom, err := roomStore.InsertRoom(ctx, &room)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
