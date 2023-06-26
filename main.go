@@ -27,6 +27,10 @@ func main() {
 
 	userHandler := api.NewUserHandler(db.NewMongoUserStore(client))
 
+	hotelStore := db.NewMongoHotelStore(client)
+	roomStore := db.NewMongoRoomStore(client, hotelStore)
+	hotelHandler := api.NewHotelHandler(hotelStore, roomStore)
+
 	apiVOne := app.Group("/api/v1")
 
 	apiVOne.Get("/user", userHandler.HandleGetUsers)
@@ -34,6 +38,8 @@ func main() {
 	apiVOne.Post("/user", userHandler.HandleInsertUser)
 	apiVOne.Delete("/user/:id", userHandler.HandleDeleteUser)
 	apiVOne.Put("/user/:id", userHandler.HandleUpdateUser)
+
+	apiVOne.Get("/hotels", hotelHandler.HandleGetHotels)
 
 	app.Listen(":5000")
 }
