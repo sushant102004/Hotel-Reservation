@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func main() {
+func seed(hotelName, location string, ratings float32) {
 	const dbURI = "mongodb://localhost:27017"
 	ctx := context.Background()
 
@@ -63,5 +63,10 @@ func main() {
 	}
 
 	fmt.Println(insertedHotel)
+}
 
+func main() {
+	seed("Daddy's Hotel", "California", 4.5)
+	seed("Taj Hotel", "Mumbai", 4.2)
+	seed("Luxry Palace", "Mexico", 4.3)
 }
