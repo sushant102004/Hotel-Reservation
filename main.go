@@ -25,11 +25,12 @@ func main() {
 		panic(err)
 	}
 
-	userHandler := api.NewUserHandler(db.NewMongoUserStore(client))
-
-	hotelStore := db.NewMongoHotelStore(client)
-	roomStore := db.NewMongoRoomStore(client, hotelStore)
-	hotelHandler := api.NewHotelHandler(hotelStore, roomStore)
+	var (
+		userHandler  = api.NewUserHandler(db.NewMongoUserStore(client))
+		hotelStore   = db.NewMongoHotelStore(client)
+		roomStore    = db.NewMongoRoomStore(client, hotelStore)
+		hotelHandler = api.NewHotelHandler(hotelStore, roomStore)
+	)
 
 	apiVOne := app.Group("/api/v1")
 
