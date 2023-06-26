@@ -23,8 +23,8 @@ func main() {
 
 	client.Database(db.DBNAME).Drop(ctx)
 
-	hotelStore := db.NewHotelStore(client)
-	roomStore := db.NewRoomStore(client, hotelStore)
+	hotelStore := db.NewMongoHotelStore(client)
+	roomStore := db.NewMongoRoomStore(client, hotelStore)
 
 	hotel := types.Hotel{
 		Name:     "Daddy's Hotel",
