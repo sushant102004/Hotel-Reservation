@@ -12,24 +12,16 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func seed(hotelName, location string, ratings float32) {
-	const dbURI = "mongodb://localhost:27017"
-	ctx := context.Background()
-
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(dbURI))
-	if err != nil {
-		panic(err)
-	}
-
-	client.Database(db.DBNAME).Drop(ctx)
+func seed(hotelName, location string, ratings int, client *mongo.Client, ctx context.Context) {
 
 	hotelStore := db.NewMongoHotelStore(client)
 	roomStore := db.NewMongoRoomStore(client, hotelStore)
 
 	hotel := types.Hotel{
-		Name:     "Daddy's Hotel",
-		Location: "California",
+		Name:     hotelName,
+		Location: location,
 		Rooms:    []primitive.ObjectID{},
+		Rating:   ratings,
 	}
 
 	rooms := []types.Room{
@@ -66,7 +58,16 @@ func seed(hotelName, location string, ratings float32) {
 }
 
 func main() {
-	seed("Daddy's Hotel", "California", 4.5)
-	seed("Taj Hotel", "Mumbai", 4.2)
-	seed("Luxry Palace", "Mexico", 4.3)
+	const dbURI = "mongodb://localhost:27017"
+	ctx := context.Background()
+
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(dbURI))
+	if err != nil {
+		panic(err)
+	}
+	client.Database(db.DBNAME).Drop(ctx)
+
+	seed("Daddy's Hotel", "California", 4, client, ctx)
+	seed("Taj Hotel", "Mumbai", 4, client, ctx)
+	seed("Luxry Palace", "Mexico", 5, client, ctx)
 }

@@ -1,8 +1,6 @@
 package api
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/sushant102004/Hotel-Reservation-System/db"
 )
@@ -26,9 +24,6 @@ func (h *HotelHandler) HandleGetHotels(c *fiber.Ctx) error {
 	if err := c.QueryParser(&query); err != nil {
 		return err
 	}
-
-	fmt.Println(query)
-
 	hotels, err := h.hs.GetHotels(c.Context(), nil)
 	if err != nil {
 		return err
