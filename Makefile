@@ -1,8 +1,2 @@
-build:
-	@go build -o bin/api
-
-run: build
-	@./bin/api
-
-test:
-	@go test -v ./...
+run: main.go
+	nodemon --exec "go run" main.go

@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/sushant102004/Hotel-Reservation-System/api"
 	"github.com/sushant102004/Hotel-Reservation-System/db"
+	"github.com/sushant102004/Hotel-Reservation-System/middleware"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -32,7 +33,7 @@ func main() {
 		hotelHandler = api.NewHotelHandler(hotelStore, roomStore)
 	)
 
-	apiVOne := app.Group("/api/v1")
+	apiVOne := app.Group("/api/v1", middleware.Authenticate)
 
 	apiVOne.Get("/user", userHandler.HandleGetUsers)
 	apiVOne.Get("/user/:id", userHandler.HandleGetUser)
