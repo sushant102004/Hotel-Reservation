@@ -31,9 +31,13 @@ func main() {
 		hotelStore   = db.NewMongoHotelStore(client)
 		roomStore    = db.NewMongoRoomStore(client, hotelStore)
 		hotelHandler = api.NewHotelHandler(hotelStore, roomStore)
+		authHandler  = api.NewAuthHandler(db.NewMongoUserStore(client))
 	)
 
 	apiVOne := app.Group("/api/v1", middleware.Authenticate)
+
+	apivOneNoAuth := app.Group("/api")
+	apivOneNoAuth.Post("/auth", authHandler.HandleAuthenticate)
 
 	apiVOne.Get("/user", userHandler.HandleGetUsers)
 	apiVOne.Get("/user/:id", userHandler.HandleGetUser)
