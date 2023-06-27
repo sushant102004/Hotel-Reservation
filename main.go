@@ -42,6 +42,7 @@ func main() {
 
 	apiVOne.Get("/hotel", hotelHandler.HandleGetHotels)
 	apiVOne.Get("/hotel/:id/rooms", hotelHandler.HandleGetRooms)
+	apiVOne.Get("/hotel/:id", hotelHandler.HandleGetHotel)
 
 	app.Listen(":5000")
 }
