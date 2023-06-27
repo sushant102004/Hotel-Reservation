@@ -40,7 +40,8 @@ func main() {
 	apiVOne.Delete("/user/:id", userHandler.HandleDeleteUser)
 	apiVOne.Put("/user/:id", userHandler.HandleUpdateUser)
 
-	apiVOne.Get("/hotels", hotelHandler.HandleGetHotels)
+	apiVOne.Get("/hotel", hotelHandler.HandleGetHotels)
+	apiVOne.Get("/hotel/:id/rooms", hotelHandler.HandleGetRooms)
 
 	app.Listen(":5000")
 }

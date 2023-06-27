@@ -26,16 +26,16 @@ func seed(hotelName, location string, ratings int, client *mongo.Client, ctx con
 
 	rooms := []types.Room{
 		{
-			Type:      types.DoubleRoom,
-			BasePrice: 99,
+			Size:      "small",
+			BasePrice: 49,
 		},
 		{
-			Type:      types.SingleRoom,
+			Size:      "normal",
 			BasePrice: 59,
 		},
 		{
-			Type:      types.LuxryRoom,
-			BasePrice: 159,
+			Size:      "kingSize",
+			BasePrice: 99,
 		},
 	}
 
