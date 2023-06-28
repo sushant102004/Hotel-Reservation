@@ -69,7 +69,7 @@ func (h *AuthHandler) HandleAuthenticate(c *fiber.Ctx) error {
 
 func createJWTToken(user *types.User) string {
 	now := time.Now()
-	validTill := now.Add(time.Hour * 6)
+	validTill := now.Add(time.Minute * 1).Unix()
 
 	claims := jwt.MapClaims{
 		"id":        user.ID,
